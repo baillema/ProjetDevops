@@ -1,5 +1,5 @@
 # ProjetDevops
 BAILLE Mathieu
-FERRAFIAT Jérome
+FERRAFIAT Jérôme
 DAPP Maxime
 MEHAYE Pierre
