@@ -14,4 +14,10 @@ public class ListData implements Data {
 		return null;
 	}
 
+	@Override
+	public boolean isPresent(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

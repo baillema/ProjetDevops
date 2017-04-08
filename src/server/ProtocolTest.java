@@ -10,9 +10,11 @@ public class ProtocolTest {
     private static final int WAITING = 0;
     private static final int WAITDATA = 1;
     private static final int WAITCMD = 2;
+    
+    public String dataState = "null";
 
     private int state = WAITING;
-
+    
     private String[] help = {"h", "help"};
     private String[] quit = {"q", "quit", "exit"};
     private String[] structure = {"int", "list", "set", "ssets", "hash"};
@@ -30,51 +32,112 @@ public class ProtocolTest {
     public String processInput(String theInput) {
         String theOutput = null;
         
-        if (state == WAITING) {
-            theOutput = "Waiting structure mode ";
-            state = WAITDATA;
-        } 
-        
-        else if(state == WAITDATA)
-        {
-            if(isQuit(theInput)) theOutput = "Bye.";
-            else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
-        	
-            else if(isData(theInput))
-        	{
-        		theOutput = "Enter in mode "+ theInput;
-        		
-        		state = WAITCMD;
-        	}
-            
-            else theOutput = "Invalid structure ";
-            
-        }
-        
-        else if (state == WAITCMD) 
-        {
-        	String[] command = theInput.split("[ ]");             
-            theInput = command[0];
-        	      	
-            if(isQuit(theInput))
-            {
-            	theOutput = "Go back to structure choice ";
-            	state = WAITING;
-            }
-            
-            else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
-            
-            else if (isCmd(theInput)) {
-                theOutput = "Waiting response of the treating data class";        
-                state = WAITING;
-            } 
-            
-            else theOutput = "Invalid command ";
-
-        }
+        if (state == WAITING) theOutput = waiting();    
+        else if(state == WAITDATA) theOutput = waitData(theInput);    
+        else if (state == WAITCMD) theOutput = waitCmd(theInput);
         
         return theOutput;
     }
+
+	// Different states
+	private String waiting() {
+        state = WAITDATA;
+        return "Waiting structure mode ";
+	}
+
+	private String waitData(String theInput) {
+    	String theOutput;
+    	if(isQuit(theInput)) theOutput = "Bye.";
+        else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;      	
+        else if(isData(theInput))
+    	{
+    		theOutput = "Enter in mode "+ theInput;
+    		dataState = theInput;
+    		state = WAITCMD;      		
+    	}
+        
+        else theOutput = "Invalid structure "; 
+    	
+    	return theOutput;
+	}
+
+    private String waitCmd(String theInput)
+    {
+    	String theOutput;
+	  	String[] command = theInput.split("[ ]");
+
+	  	theInput = command[0];
+  	      	
+	    if(isQuit(theInput))
+	    {
+	    	theOutput = "Go back to structure choice ";
+	    	state = WAITING;
+	    }
+      
+	    else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
+	    else if (isCmd(theInput)) 
+	    {
+	    	if(isValidName(command[1]))
+	    	{
+	    		String name = command[1];
+	    		
+	    		switch(dataState)
+	    		{
+	    		case "int" :
+		    		if(command[0].equalsIgnoreCase("set"))
+		    		{
+		    			if(isValideValue(command[2], dataState))
+		    			{
+		    				intData.set(name,Integer.parseInt(command[2]));
+		    				theOutput = "OK";
+		    			}
+		    			else theOutput = "Invalid value";
+		    		}
+		    		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+(int) intData.get(name);
+		    		else theOutput = "Invalid command";
+		    		break;
+	    		default :
+	    			theOutput = "NOT OK";
+	    			break;
+	    		}
+	    	}
+	    	else theOutput = "Invalid command ";
+	    	
+	    	state = WAITCMD;
+	    }
+	    else theOutput = "Invalid command ";
+	  	
+	    return theOutput;
+	}
+
+    // Miscellaneous tests
+	private boolean isValideValue(String string, String data) {
+		boolean res;
+		switch(data)
+		{
+		case "int" :
+			try  
+			{  
+				Integer.parseInt(string);
+				res = true;
+			}
+			
+			catch(NumberFormatException nfe){ res = false; }
+			break;
+		
+		default :
+			res = false;
+			break;
+						
+		}
+		return res;
+	}
+	
+
+	private boolean isValidName(String string) { 
+		return !Character.isDigit(string.charAt(0));		
+	}
+	
 
 	private boolean isData(String theInput) {
 		boolean res = false;
@@ -87,12 +150,14 @@ public class ProtocolTest {
 		for(int i=0; i<help.length && !res; i++) {if(help[i].equalsIgnoreCase(theInput)) res = true ; }
 		return res;
 	}
+	
 
 	private boolean isQuit(String theInput) {
 		boolean res = false;
 		for(int i=0; i<quit.length && !res; i++) {if(quit[i].equalsIgnoreCase(theInput)) res = true ; }
 		return res;
 	}
+	
 
 	private boolean isCmd(String theInput) {
 		boolean res = false;
