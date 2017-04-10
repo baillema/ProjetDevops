@@ -84,17 +84,10 @@ public class ProtocolTest {
 	    		switch(dataState)
 	    		{
 	    		case "int" :
-		    		if(command[0].equalsIgnoreCase("set"))
-		    		{
-		    			if(isValideValue(command[2], dataState))
-		    			{
-		    				intData.set(name,Integer.parseInt(command[2]));
-		    				theOutput = "OK";
-		    			}
-		    			else theOutput = "Invalid value";
-		    		}
-		    		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+(int) intData.get(name);
-		    		else theOutput = "Invalid command";
+	    			theOutput = cmdInt(command, name);
+		    		break;
+	    		case "list" :
+	    			theOutput = cmdList(command, name);
 		    		break;
 	    		default :
 	    			theOutput = "NOT OK";
@@ -109,8 +102,44 @@ public class ProtocolTest {
 	  	
 	    return theOutput;
 	}
+    
+	// Command of the different state of structure
+    private String cmdInt(String[] command, String name) {   	
+    	String theOutput;
+    	
+    	if(command[0].equalsIgnoreCase("set"))
+		{
+			if(isValideValue(command[2], dataState))
+			{
+				intData.set(name,Integer.parseInt(command[2]));
+				theOutput = "OK";
+			}
+			else theOutput = "Invalid value";
+		}
+		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+(int) intData.get(name);
+		else theOutput = "Invalid command";
+    
+    	return theOutput;
+	}
+    
+    private String cmdList(String[] command, String name) {
+    	String theOutput;
+    	
+    	if(command[0].equalsIgnoreCase("set"))
+		{
+			if(isValideValue(command[2], dataState))
+			{
+				listData.set(name,command[2]);
+				theOutput = "OK";
+			}
+			else theOutput = "Invalid value";
+		}
+		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+ listData.get(name);
+		else theOutput = "Invalid command";
+		return theOutput;
+	}
 
-    // Miscellaneous tests
+	// Miscellaneous tests
 	private boolean isValideValue(String string, String data) {
 		boolean res;
 		switch(data)
@@ -124,7 +153,10 @@ public class ProtocolTest {
 			
 			catch(NumberFormatException nfe){ res = false; }
 			break;
-		
+		case "list" :
+			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
+			else res = false;
+			break;
 		default :
 			res = false;
 			break;
@@ -132,13 +164,11 @@ public class ProtocolTest {
 		}
 		return res;
 	}
-	
-
+		
 	private boolean isValidName(String string) { 
 		return !Character.isDigit(string.charAt(0));		
 	}
 	
-
 	private boolean isData(String theInput) {
 		boolean res = false;
 		for(int i=0; i<structure.length && !res; i++) {if(structure[i].equalsIgnoreCase(theInput)) res = true ; }
@@ -151,14 +181,12 @@ public class ProtocolTest {
 		return res;
 	}
 	
-
 	private boolean isQuit(String theInput) {
 		boolean res = false;
 		for(int i=0; i<quit.length && !res; i++) {if(quit[i].equalsIgnoreCase(theInput)) res = true ; }
 		return res;
 	}
 	
-
 	private boolean isCmd(String theInput) {
 		boolean res = false;
 		for(int i=0; i<cmd.length && !res; i++) {if(cmd[i].equalsIgnoreCase(theInput)) res = true ; }

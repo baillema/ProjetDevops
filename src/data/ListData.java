@@ -1,23 +1,26 @@
 package data;
 
+import java.util.ArrayList;
+
 public class ListData implements Data {
 
+	ArrayList<Object> listV = new ArrayList<Object>();
+	ArrayList<String> listN = new ArrayList<String>();
+	
 	@Override
 	public void set(String name, Object value) {
-		// TODO Auto-generated method stub
-		
+		listV.add(value);
+		listN.add(name);
 	}
 
 	@Override
 	public Object get(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return listV.get(listN.indexOf(name));
 	}
 
 	@Override
 	public boolean isPresent(String name) {
-		// TODO Auto-generated method stub
-		return false;
+		return listN.contains(name);
 	}
 
 }
