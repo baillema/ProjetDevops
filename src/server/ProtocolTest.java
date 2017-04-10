@@ -1,6 +1,6 @@
 package server;
 
-import data.HashData;
+//import data.HashData;
 import data.IntegerData;
 import data.ListData;
 import data.SSetData;
@@ -18,7 +18,7 @@ public class ProtocolTest {
     private String[] help = {"h", "help"};
     private String[] quit = {"q", "quit", "exit"};
     private String[] structure = {"int", "list", "set", "ssets", "hash"};
-    private String[] cmd = {"SET", "GET", "HELP", "EXPIRE", "TTL" };
+    private String[] cmd = {"SET", "GET", "HELP", "EXPIRE", "TTL" , "INCR"};
     private String[] listCmd = {"RPUSH", "LPUSH", "LRANGE", "LLEN", "LPOP", "RPOP"};
     private String[] setCmd = {"SADD", "SREM", "SISMEMBER", "SMEMBERS", "SUNION", "ZADD"};
     private String[] hashCmd = {"HSET", "HGETALL", "HGET"};
@@ -27,7 +27,7 @@ public class ProtocolTest {
     private ListData listData = new ListData();
     private SetData setData = new SetData();
     private SSetData ssetData = new SSetData();
-    private HashData hashData = new HashData();
+    //private HashData hashData = new HashData();
     
     public String processInput(String theInput) {
         String theOutput = null;
@@ -89,56 +89,123 @@ public class ProtocolTest {
 	    		case "list" :
 	    			theOutput = cmdList(command, name);
 		    		break;
+	    		case "set" :
+	    			theOutput = cmdSet(command, name);
+	    			break;
+	    		case "sset" :
+	    			theOutput = cmdSSet(command, name);
+	    			break;
 	    		default :
 	    			theOutput = "NOT OK";
 	    			break;
 	    		}
 	    	}
-	    	else theOutput = "Invalid command ";
+	    	else theOutput = "Invalid command "+dataState;
 	    	
 	    	state = WAITCMD;
 	    }
-	    else theOutput = "Invalid command ";
+	    else theOutput = "Invalid command "+dataState;
 	  	
 	    return theOutput;
 	}
-    
+
 	// Command of the different state of structure
     private String cmdInt(String[] command, String name) {   	
     	String theOutput;
     	
-    	if(command[0].equalsIgnoreCase("set"))
-		{
-			if(isValideValue(command[2], dataState))
+    	switch(command[0].toLowerCase())
+    	{
+    	case "set" :
+    		if(isValideValue(command[2], dataState))
 			{
 				intData.set(name,Integer.parseInt(command[2]));
 				theOutput = "OK";
 			}
 			else theOutput = "Invalid value";
-		}
-		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+(int) intData.get(name);
-		else theOutput = "Invalid command";
-    
+    		break;
+    	case "get" :
+    		theOutput = name+" "+(int) intData.get(name);
+    		break;
+    	case "incr" :
+    		theOutput = name+" "+(int) intData.incr(name);
+    		break;
+    	default :
+    		theOutput = "Invalid command";
+    		break;
+    	}
+    	 
     	return theOutput;
 	}
     
     private String cmdList(String[] command, String name) {
     	String theOutput;
     	
-    	if(command[0].equalsIgnoreCase("set"))
-		{
-			if(isValideValue(command[2], dataState))
+    	switch(command[0].toLowerCase())
+    	{
+    	case "set" :
+    		if(isValideValue(command[2], dataState))
 			{
-				listData.set(name,command[2]);
+    			listData.set(name,command[2]);
 				theOutput = "OK";
 			}
 			else theOutput = "Invalid value";
-		}
-		else if(command[0].equalsIgnoreCase("get")) theOutput = name+" "+ listData.get(name);
-		else theOutput = "Invalid command";
+    		break;
+    	case "get" :
+    		theOutput = name+" "+(int) intData.get(name);
+    		break;
+    	default :
+    		theOutput = "Invalid command";
+    		break;
+    	}
+    	
 		return theOutput;
 	}
 
+	private String cmdSet(String[] command, String name) {
+		String theOutput;
+		switch(command[0].toLowerCase())
+    	{
+    	case "set" :
+    		if(isValideValue(command[2], dataState))
+			{
+    			setData.set(name,command[2]);
+				theOutput = "OK";
+			}
+			else theOutput = "Invalid value";
+    		break;
+    	case "get" :
+    		theOutput = name+" "+(int) intData.get(name);
+    		break;
+    	default :
+    		theOutput = "Invalid command";
+    		break;
+    	}
+		return theOutput;
+	}
+
+	private String cmdSSet(String[] command, String name) {
+		String theOutput;
+    	
+		switch(command[0].toLowerCase())
+    	{
+    	case "set" :
+    		if(isValideValue(command[2], dataState))
+			{
+    			ssetData.set(name,command[2]);
+				theOutput = "OK";
+			}
+			else theOutput = "Invalid value";
+    		break;
+    	case "get" :
+    		theOutput = name+" "+(int) intData.get(name);
+    		break;
+    	default :
+    		theOutput = "Invalid command";
+    		break;
+    	}
+		return theOutput;
+	}
+	
 	// Miscellaneous tests
 	private boolean isValideValue(String string, String data) {
 		boolean res;
@@ -154,6 +221,10 @@ public class ProtocolTest {
 			catch(NumberFormatException nfe){ res = false; }
 			break;
 		case "list" :
+			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
+			else res = false;
+			break;		
+		case "set" :
 			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
 			else res = false;
 			break;

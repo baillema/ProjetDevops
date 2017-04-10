@@ -19,12 +19,18 @@ public class IntegerData implements Data {
 
 	@Override
 	public Object get(String name) {
-		return value.get(name.indexOf(name));
+		return this.value.get(this.name.indexOf(name));
 	}
 	
 	@Override
 	public boolean isPresent(String name) {
 		return this.name.contains(name);
+	}
+
+	public Object incr(String name) {
+		int val = this.value.get(this.name.indexOf(name)).intValue()+1;
+		this.value.set(this.name.indexOf(name), val);
+		return get(name);
 	}
 	
 }
