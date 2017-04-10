@@ -4,23 +4,30 @@ import java.util.ArrayList;
 
 public class ListData implements Data {
 
-	ArrayList<Object> listV = new ArrayList<Object>();
-	ArrayList<String> listN = new ArrayList<String>();
-	
+	ArrayList<String> name = new ArrayList<String>();
+	ArrayList<ArrayList<Object>> value = new ArrayList<ArrayList<Object>>();
+		
 	@Override
 	public void set(String name, Object value) {
-		listV.add(value);
-		listN.add(name);
+		if(isPresent(name))
+		{
+			this.value.get(this.name.indexOf(name)).add(value);
+		}
+		else
+		{
+			this.name.add(name);
+			this.value.add(new ArrayList<Object>());
+			this.value.get(this.name.indexOf(name)).add(value);
+		}		
 	}
 
 	@Override
 	public Object get(String name) {
-		return listV.get(listN.indexOf(name));
+		return this.value.get(this.name.indexOf(name));
 	}
 
 	@Override
 	public boolean isPresent(String name) {
-		return listN.contains(name);
+		return this.name.contains(name);
 	}
-
 }

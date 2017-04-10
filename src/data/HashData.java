@@ -2,6 +2,8 @@ package data;
 
 public class HashData implements Data {
 
+	String [] name = new String[100];
+	
 	@Override
 	public void set(String name, Object value) {
 		// TODO Auto-generated method stub
@@ -19,5 +21,4 @@ public class HashData implements Data {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

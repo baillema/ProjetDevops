@@ -1,36 +1,30 @@
 package data;
 
+import java.util.ArrayList;
 
 public class IntegerData implements Data {
 	
-	String [] name = new String[100];
-	int [] value= new int[100];
-	int current = 0;
+	ArrayList<String> name = new ArrayList<String>();
+	ArrayList<Integer> value = new ArrayList<Integer>();
 	
 	@Override
 	public void set(String name, Object value) {
 		if(isPresent(name)) System.out.println("Name already present in this scope.");
 		else
 		{
-			this.name[current] = name;
-			this.value[current] = (int) value;
-			current++;
+			this.name.add(name);
+			this.value.add((int) value);
 		}
 	}
 
 	@Override
 	public Object get(String name) {
-		int tmp =  0;
-		if(!isPresent(name)) System.out.println("Name not present in this scope.");
-		else for(int i=0; i<current; i++) {if(this.name[i].equals(name)) tmp=this.value[i];}
-		return (Object) tmp;
+		return value.get(name.indexOf(name));
 	}
 	
 	@Override
 	public boolean isPresent(String name) {
-		boolean res = false;	
-		for(int i=0; i<current && !res; i++){ if(this.name[i].equals(name)) res=true; }			
-		return res;
+		return this.name.contains(name);
 	}
 	
 }
