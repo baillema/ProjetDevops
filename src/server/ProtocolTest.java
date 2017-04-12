@@ -1,10 +1,10 @@
 package server;
 
-//import data.HashData;
 import data.IntegerData;
 import data.ListData;
 import data.SSetData;
 import data.SetData;
+import time.TimeToLive;
 
 public class ProtocolTest {
     private static final int WAITING = 0;
@@ -24,6 +24,8 @@ public class ProtocolTest {
     private ListData listData = new ListData();
     private SetData setData = new SetData();
     private SSetData ssetData = new SSetData();
+    
+    private TimeToLive timeToLive;
     
     public String processInput(String theInput) {
         String theOutput = null;
@@ -135,6 +137,12 @@ public class ProtocolTest {
     		}
     		else theOutput = name+" not present in this scope.";    		
     		break;
+    	case "expire" :
+    		theOutput = "Not yet implemented";
+    		break;
+    	case "ttl" :
+    		theOutput = "Not yet implemented";
+    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -167,6 +175,12 @@ public class ProtocolTest {
     			theOutput = name+" successfuly removed";
     		}
     		else theOutput = name+" not present in this scope.";
+    	case "expire" :
+    		theOutput = "Not yet implemented";
+    		break;
+    	case "ttl" :
+    		theOutput = "Not yet implemented";
+    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -202,6 +216,12 @@ public class ProtocolTest {
     	default :
     		theOutput = "Invalid command";
     		break;
+    	case "expire" :
+    		theOutput = "Not yet implemented";
+    		break;
+    	case "ttl" :
+    		theOutput = "Not yet implemented";
+    		break;
     	}
 		return theOutput;
 	}
@@ -229,6 +249,12 @@ public class ProtocolTest {
     			theOutput = name+" successfuly removed";
     		}
     		else theOutput = name+" not present in this scope.";
+    		break;
+    	case "expire" :
+    		theOutput = "Not yet implemented";
+    		break;
+    	case "ttl" :
+    		theOutput = "Not yet implemented";
     		break;
     	default :
     		theOutput = "Invalid command";
