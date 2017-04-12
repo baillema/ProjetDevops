@@ -120,14 +120,20 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+(int) intData.get(name);
+    		if(intData.isPresent(name)) theOutput = name+" "+(int) intData.get(name);
+    		else theOutput = name+" not present in this scope.";
     		break;
     	case "incr" :
-    		theOutput = name+" "+(int) intData.incr(name);
+    		if(intData.isPresent(name)) theOutput = name+" "+(int) intData.incr(name);
+    		else theOutput = name+" not present in this scope.";
     		break;
     	case "rem" :
-    		intData.remove(name);
-    		theOutput = name+" successfuly removed";
+    		if(intData.isPresent(name))
+    		{
+    			intData.remove(name);
+    			theOutput = name+" successfuly removed";
+    		}
+    		else theOutput = name+" not present in this scope.";    		
     		break;
     	default :
     		theOutput = "Invalid command";
@@ -151,11 +157,16 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+listData.get(name).toString();
+    		if(listData.isPresent(name)) theOutput = name+" "+listData.get(name).toString();
+    		else theOutput = name+" not present in this scope.";
     		break;
     	case "rem" :
-    		listData.remove(name);
-    		theOutput = name+" successfuly removed";
+    		if(listData.isPresent(name))
+    		{	
+    			listData.remove(name);
+    			theOutput = name+" successfuly removed";
+    		}
+    		else theOutput = name+" not present in this scope.";
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -177,11 +188,16 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+setData.get(name).toString();
+    		if(setData.isPresent(name)) theOutput = name+" "+setData.get(name).toString();
+    		else theOutput = name+" not present in this scope.";
     		break;
     	case "rem" :
-    		setData.remove(name);
-    		theOutput = name+" successfuly removed";
+    		if(setData.isPresent(name))
+    		{
+    			setData.remove(name);
+    			theOutput = name+" successfuly removed";
+    		}
+    		else theOutput = name+" not present in this scope.";
     		break;
     	default :
     		theOutput = "Invalid command";
@@ -192,7 +208,6 @@ public class ProtocolTest {
 
 	private String cmdSSet(String[] command, String name) {
 		String theOutput;
-    	
 		switch(command[0].toLowerCase())
     	{
     	case "set" :
@@ -204,11 +219,16 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+ssetData.get(name).toString();
+    		if(ssetData.isPresent(name)) theOutput = name+" "+ssetData.get(name).toString();
+    		else theOutput = name+" not present in this scope.";
     		break;
     	case "rem" :
-    		ssetData.remove(name);
-    		theOutput = name+ " successfuly removed";
+    		if(ssetData.isPresent(name))
+    		{
+    			ssetData.remove(name);
+    			theOutput = name+" successfuly removed";
+    		}
+    		else theOutput = name+" not present in this scope.";
     		break;
     	default :
     		theOutput = "Invalid command";
