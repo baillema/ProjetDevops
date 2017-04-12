@@ -1,6 +1,9 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class SSetData implements Data {
 
@@ -33,19 +36,12 @@ public class SSetData implements Data {
 	}
 	
 	private void insertSorted(Object value, String name) {
-		if(isPresent(name)) System.out.println("Value already present in this set.");
+		if(isValuePresent(value, name)) System.out.println("Value already present in this set.");
 		
-		int size = this.value.get(this.name.indexOf(name)).size();
-		for(int i=0; i<size; i++)
-		{
-			if(this.value.get(this.name.indexOf(name)).get(i).toString().compareToIgnoreCase(name)<0)
-			{
-				this.value.get(this.name.indexOf(name)).set(i,name);
-				break;
-			}
-		}
+		this.value.get(this.name.indexOf(name)).add(value);
+		this.value.get(this.name.indexOf(name)).sort((o1, o2) -> o1.toString().compareToIgnoreCase(o2.toString()));
 	}
-	
+		
 	@Override
 	public void remove(String name) {
 		this.value.remove(this.name.indexOf(name));
