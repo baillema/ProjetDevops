@@ -1,5 +1,9 @@
 package data;
 
+/*
+ * Attention à bien passer des clones des data
+ */
+
 public interface Data {
 	
 	void set(String name, Object value);

@@ -6,7 +6,8 @@ public class SetData implements Data {
 
 	ArrayList<String> name = new ArrayList<String>();
 	ArrayList<ArrayList<Object>> value = new ArrayList<ArrayList<Object>>();
-		
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void set(String name, Object value) {
 		if(isPresent(name))
@@ -18,7 +19,7 @@ public class SetData implements Data {
 		{
 			this.name.add(name);
 			this.value.add(new ArrayList<Object>());
-			this.value.get(this.name.indexOf(name)).add(value);
+			this.value.set(this.name.indexOf(name),(ArrayList<Object>) value);
 		}		
 	}
 

@@ -10,18 +10,7 @@ public class TimeToLive {
 	
 	public TimeToLive(String name, int val) {
 		timer = new Timer(true);
-		TimerTask myTask = new TimerTask() {
-			@Override
-			public void run() {
-				System.out.println("Debut execution tache " + new Date());
-			    try {
-			      Thread.sleep(1000);
-			    } catch (InterruptedException e) {
-			      e.printStackTrace();
-			    }
-			    System.out.println("Fin execution tache " + new Date());
-			}
-		};
+		myTimerTask myTask = new myTimerTask(name, val);
 		
 		timer.schedule(myTask, 0);
 		System.out.println("Lancement execution");
