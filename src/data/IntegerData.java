@@ -1,11 +1,13 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class IntegerData implements Data {
 	
 	ArrayList<String> name = new ArrayList<String>();
 	ArrayList<Integer> value = new ArrayList<Integer>();
+	ArrayList<Timer> timer = new ArrayList<Timer>();
 	
 	@Override
 	public void set(String name, Object value) {
@@ -37,6 +39,21 @@ public class IntegerData implements Data {
 		int val = this.value.get(this.name.indexOf(name)).intValue()+1;
 		this.value.set(this.name.indexOf(name), val);
 		return get(name);
+	}
+
+	@Override
+	public void expire(String name, int val) {
+		Timer t = new Timer(true);
+		timer.add(t); 
+		
+		try {
+			Thread.sleep(val*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    
+	    if(this.isPresent(name)) this.remove(name);
+	    timer.remove(t);
 	}
 	
 }

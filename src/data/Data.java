@@ -13,5 +13,7 @@ public interface Data {
 	boolean isPresent(String name);
 	
 	void remove(String name);
+	
+	void expire(String name, int val);
 		
 }

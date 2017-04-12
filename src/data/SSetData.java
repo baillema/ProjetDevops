@@ -1,12 +1,14 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class SSetData implements Data {
 
 	ArrayList<String> name = new ArrayList<String>();
 	ArrayList<ArrayList<Object>> value = new ArrayList<ArrayList<Object>>();
+	ArrayList<Timer> timer = new ArrayList<Timer>();
 		
 	@SuppressWarnings("unchecked")
 	@Override
@@ -59,6 +61,22 @@ public class SSetData implements Data {
 	
 	private boolean isValuePresent(Object value, String name) {
 		return this.value.get(this.name.indexOf(name)).contains(value);
+	}
+
+	@Override
+	public void expire(String name, int val) {
+		Timer t = new Timer(true);
+		timer.add(t); 
+		
+		try {
+			Thread.sleep(val*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    
+	    if(this.isPresent(name)) this.remove(name);
+		
+	    timer.remove(t);
 	}
 	
 }

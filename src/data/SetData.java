@@ -1,11 +1,13 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class SetData implements Data {
 
 	ArrayList<String> name = new ArrayList<String>();
 	ArrayList<ArrayList<Object>> value = new ArrayList<ArrayList<Object>>();
+	ArrayList<Timer> timer = new ArrayList<Timer>();
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -51,5 +53,21 @@ public class SetData implements Data {
 	public void removeElmt(String name, String elmt)
 	{
 		this.value.get(this.name.indexOf(name)).remove(elmt);
+	}
+
+	@Override
+	public void expire(String name, int val) {
+		Timer t = new Timer(true);
+		timer.add(t); 
+		
+		try {
+			Thread.sleep(val*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    
+	    if(this.isPresent(name)) this.remove(name);
+		
+	    timer.remove(t);
 	}
 }
