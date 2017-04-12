@@ -78,5 +78,16 @@ public class IntegerDataTest {
 		}
 		assertEquals(-1,(int)ID.get("test"));
 	}
+	
+	@Test
+	public void testRemove() {
+		for (int i = 0; i < NBTEST; i++){
+			ID.set(Integer.toString(i), 42);
+			ID.remove(Integer.toString(i));
+		}
+		for (int i = 0; i < NBTEST; i++){
+			assertFalse(ID.isPresent(Integer.toString(i)));
+		}
+	}
 
 }
