@@ -35,4 +35,19 @@ public class SetData implements Data {
 	private boolean isValuePresent(Object value, String name) {
 		return this.value.get(this.name.indexOf(name)).contains(value);
 	}
+
+	@Override
+	public void remove(String name) {
+		this.value.remove(this.name.indexOf(name));
+	}
+	
+	public void removeElmt(String name, int index)
+	{
+		this.value.get(this.name.indexOf(name)).remove(index);
+	}
+	
+	public void removeElmt(String name, String elmt)
+	{
+		this.value.get(this.name.indexOf(name)).remove(elmt);
+	}
 }

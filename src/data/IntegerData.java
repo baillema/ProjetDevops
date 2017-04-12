@@ -26,6 +26,11 @@ public class IntegerData implements Data {
 	public boolean isPresent(String name) {
 		return this.name.contains(name);
 	}
+	
+	@Override
+	public void remove(String name) {
+		this.value.remove(this.name.indexOf(name));		
+	}
 
 	public Object incr(String name) {
 		int val = this.value.get(this.name.indexOf(name)).intValue()+1;

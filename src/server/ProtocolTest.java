@@ -17,17 +17,13 @@ public class ProtocolTest {
     
     private String[] help = {"h", "help"};
     private String[] quit = {"q", "quit", "exit"};
-    private String[] structure = {"int", "list", "set", "ssets", "hash"};
-    private String[] cmd = {"SET", "GET", "HELP", "EXPIRE", "TTL" , "INCR"};
-    private String[] listCmd = {"RPUSH", "LPUSH", "LRANGE", "LLEN", "LPOP", "RPOP"};
-    private String[] setCmd = {"SADD", "SREM", "SISMEMBER", "SMEMBERS", "SUNION", "ZADD"};
-    private String[] hashCmd = {"HSET", "HGETALL", "HGET"};
+    private String[] structure = {"int", "list", "set", "sset"};
+    private String[] cmd = {"SET", "GET", "HELP", "EXPIRE", "TTL" , "INCR", "REM"};
     
     private IntegerData intData = new IntegerData();
     private ListData listData = new ListData();
     private SetData setData = new SetData();
     private SSetData ssetData = new SSetData();
-    //private HashData hashData = new HashData();
     
     public String processInput(String theInput) {
         String theOutput = null;
@@ -129,6 +125,10 @@ public class ProtocolTest {
     	case "incr" :
     		theOutput = name+" "+(int) intData.incr(name);
     		break;
+    	case "rem" :
+    		intData.remove(name);
+    		theOutput = name+" successfuly removed";
+    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -151,8 +151,11 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+(int) intData.get(name);
+    		theOutput = name+" "+listData.get(name).toString();
     		break;
+    	case "rem" :
+    		listData.remove(name);
+    		theOutput = name+" successfuly removed";
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -174,7 +177,11 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+(int) intData.get(name);
+    		theOutput = name+" "+setData.get(name).toString();
+    		break;
+    	case "rem" :
+    		setData.remove(name);
+    		theOutput = name+" successfuly removed";
     		break;
     	default :
     		theOutput = "Invalid command";
@@ -197,7 +204,11 @@ public class ProtocolTest {
 			else theOutput = "Invalid value";
     		break;
     	case "get" :
-    		theOutput = name+" "+(int) intData.get(name);
+    		theOutput = name+" "+ssetData.get(name).toString();
+    		break;
+    	case "rem" :
+    		ssetData.remove(name);
+    		theOutput = name+ " successfuly removed";
     		break;
     	default :
     		theOutput = "Invalid command";
@@ -217,7 +228,6 @@ public class ProtocolTest {
 				Integer.parseInt(string);
 				res = true;
 			}
-			
 			catch(NumberFormatException nfe){ res = false; }
 			break;
 		case "list" :
@@ -225,6 +235,10 @@ public class ProtocolTest {
 			else res = false;
 			break;		
 		case "set" :
+			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
+			else res = false;
+			break;
+		case "sset" :
 			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
 			else res = false;
 			break;
@@ -261,10 +275,7 @@ public class ProtocolTest {
 	private boolean isCmd(String theInput) {
 		boolean res = false;
 		for(int i=0; i<cmd.length && !res; i++) {if(cmd[i].equalsIgnoreCase(theInput)) res = true ; }
-		for(int i=0; i<listCmd.length && !res; i++) { if(listCmd[i].equalsIgnoreCase(theInput)) res = true ; }
-		for(int i=0; i<setCmd.length && !res; i++) { if(setCmd[i].equalsIgnoreCase(theInput)) res = true ; }
-		for(int i=0; i<hashCmd.length && !res; i++) { if(hashCmd[i].equalsIgnoreCase(theInput)) res = true ; }
-
+	
 		return res;
 	}
 }

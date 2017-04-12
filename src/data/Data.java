@@ -7,5 +7,7 @@ public interface Data {
 	Object get(String name);
 	
 	boolean isPresent(String name);
+	
+	void remove(String name);
 		
 }

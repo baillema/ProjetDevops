@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class ListData implements Data {
 
@@ -29,5 +30,21 @@ public class ListData implements Data {
 	@Override
 	public boolean isPresent(String name) {
 		return this.name.contains(name);
+	}
+
+	@Override
+	public void remove(String name) {
+		this.value.remove(this.name.indexOf(name));
+	}
+	
+	public void removeElmt(String name, int index)
+	{
+		this.value.get(this.name.indexOf(name)).remove(index);
+	}
+	
+	public void removeElmt(String name, String elmt)
+	{
+		//Remove only the first occurence of elmt elmt
+		this.value.get(this.name.indexOf(name)).remove(elmt);
 	}
 }
