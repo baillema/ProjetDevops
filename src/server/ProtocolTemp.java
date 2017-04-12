@@ -6,7 +6,7 @@ import data.SSetData;
 import data.SetData;
 import time.TimeToLive;
 
-public class ProtocolTest {
+public class ProtocolTemp {
     private static final int WAITING = 0;
     private static final int WAITDATA = 1;
     private static final int WAITCMD = 2;

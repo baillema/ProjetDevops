@@ -2,7 +2,7 @@ package server;
 import java.net.*;
 import java.io.*;
 
-public class ServerTest {
+public class ServerTemp {
     public static void main(String[] args) throws IOException {
         
         if (args.length != 1) {
@@ -24,7 +24,7 @@ public class ServerTest {
             String inputLine, outputLine;
             
             // Initiate conversation with client
-            ProtocolTest prot = new ProtocolTest();
+            ProtocolTemp prot = new ProtocolTemp();
             outputLine = prot.processInput(null);
             out.println(outputLine);
 

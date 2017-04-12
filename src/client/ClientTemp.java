@@ -3,7 +3,7 @@ package client;
 import java.io.*;
 import java.net.*;
 
-public class ClientTest {
+public class ClientTemp {
     public static void main(String[] args) throws IOException {
         
         if (args.length != 2) {
