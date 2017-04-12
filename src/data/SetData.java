@@ -39,6 +39,7 @@ public class SetData implements Data {
 	@Override
 	public void remove(String name) {
 		this.value.remove(this.name.indexOf(name));
+		this.name.remove(this.name.indexOf(name));
 	}
 	
 	public void removeElmt(String name, int index)

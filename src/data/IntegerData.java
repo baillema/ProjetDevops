@@ -29,7 +29,8 @@ public class IntegerData implements Data {
 	
 	@Override
 	public void remove(String name) {
-		this.value.remove(this.name.indexOf(name));		
+		this.value.remove(this.name.indexOf(name));
+		this.name.remove(this.name.indexOf(name));
 	}
 
 	public Object incr(String name) {
