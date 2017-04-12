@@ -11,6 +11,8 @@ import data.IntegerData;
 
 public class IntegerDataTest {
 	
+	private final static int NBTEST  = 500;
+	
 	IntegerData ID;
 	
 	@Before
@@ -22,7 +24,7 @@ public class IntegerDataTest {
 	public void testSet() {
 		Random r = new Random();
 		int value;
-		for (int i = 0; i < 50000; i++){
+		for (int i = 0; i < NBTEST*100; i++){
 			value = r.nextInt();
 			ID.set(Integer.toString(value), value);
 		}
@@ -30,11 +32,11 @@ public class IntegerDataTest {
 	
 	@Test
 	public void testGet() {
-		for (int i = 0; i < 500; i++){
-			ID.set(Integer.toString(i), 500-i);
+		for (int i = 0; i < NBTEST; i++){
+			ID.set(Integer.toString(i), NBTEST-i);
 		}
-		for (int i = 0; i < 500; i++){
-			assertEquals(500-i,(int)ID.get(Integer.toString(i)));
+		for (int i = 0; i < NBTEST; i++){
+			assertEquals(NBTEST-i,(int)ID.get(Integer.toString(i)));
 		}
 		
 		
@@ -42,27 +44,39 @@ public class IntegerDataTest {
 	
 	@Test
 	public void testPresent() {
-		for (int i = 0; i < 500; i++){
-			ID.set(Integer.toString(i), 500-i);
+		for (int i = 0; i < NBTEST; i++){
+			ID.set(Integer.toString(i), NBTEST-i);
 		}
-		for (int i = 0; i < 500; i++){
+		for (int i = 0; i < NBTEST; i++){
 			assertTrue(ID.isPresent(Integer.toString(i)));
 		}
 	}
 	
 	@Test
 	public void testIncr() {
-		for (int i = 0; i < 500; i++){
-			ID.set(Integer.toString(i), 500-i);
+		for (int i = 0; i < NBTEST; i++){
+			ID.set(Integer.toString(i), NBTEST-i);
 		}
-		for (int i = 0; i < 500; i++){
+		for (int i = 0; i < NBTEST; i++){
 			ID.incr(Integer.toString(i));
 		}
-		for (int i = 0; i < 500; i++){
-			assertEquals(501-i,(int)ID.get(Integer.toString(i)));
+		for (int i = 0; i < NBTEST; i++){
+			assertEquals(NBTEST+1-i,(int)ID.get(Integer.toString(i)));
 		}
 		
 		
+	}
+	
+	@Test
+	public void testSetSameName() {
+		ID.set("test", -1);
+		Random r = new Random();
+		int value;
+		for (int i = 0; i < NBTEST*100; i++){
+			value = r.nextInt();
+			ID.set("test", value);
+		}
+		assertEquals(-1,(int)ID.get("test"));
 	}
 
 }

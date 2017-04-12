@@ -3,6 +3,13 @@
 # Travis ID
 Pierre
 
+#JUnit
+Pierre
+	IntegerData : ok
+	ListData : ongoing
+	SetData : TODO
+	SSetData : TODO
+
 # Maven
 Maxime
 
