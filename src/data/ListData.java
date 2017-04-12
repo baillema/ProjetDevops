@@ -50,20 +50,4 @@ public class ListData implements Data {
 		//Remove only the first occurence of elmt elmt
 		this.value.get(this.name.indexOf(name)).remove(elmt);
 	}
-	
-	@Override
-	public void expire(String name, int val) {
-		Timer t = new Timer(true);
-		timer.add(t); 
-		
-		try {
-			Thread.sleep(val*1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	    
-	    if(this.isPresent(name)) this.remove(name);
-		
-	    timer.remove(t);
-	}
 }

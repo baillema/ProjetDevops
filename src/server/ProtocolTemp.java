@@ -4,7 +4,6 @@ import data.IntegerData;
 import data.ListData;
 import data.SSetData;
 import data.SetData;
-import time.TimeToLive;
 
 public class ProtocolTemp {
     private static final int WAITING = 0;
@@ -18,14 +17,12 @@ public class ProtocolTemp {
     private String[] help = {"h", "help"};
     private String[] quit = {"q", "quit", "exit"};
     private String[] structure = {"int", "list", "set", "sset"};
-    private String[] cmd = {"SET", "GET", "HELP", "EXPIRE", "TTL" , "INCR", "REM"};
+    private String[] cmd = {"SET", "GET", "HELP", "INCR", "REM"};
     
     private IntegerData intData = new IntegerData();
     private ListData listData = new ListData();
     private SetData setData = new SetData();
     private SSetData ssetData = new SSetData();
-    
-    private TimeToLive timeToLive;
     
     public String processInput(String theInput) {
         String theOutput = null;
@@ -137,12 +134,6 @@ public class ProtocolTemp {
     		}
     		else theOutput = name+" not present in this scope.";    		
     		break;
-    	case "expire" :
-    		theOutput = "Not yet implemented";
-    		break;
-    	case "ttl" :
-    		theOutput = "Not yet implemented";
-    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -175,12 +166,6 @@ public class ProtocolTemp {
     			theOutput = name+" successfuly removed";
     		}
     		else theOutput = name+" not present in this scope.";
-    	case "expire" :
-    		theOutput = "Not yet implemented";
-    		break;
-    	case "ttl" :
-    		theOutput = "Not yet implemented";
-    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -216,12 +201,6 @@ public class ProtocolTemp {
     	default :
     		theOutput = "Invalid command";
     		break;
-    	case "expire" :
-    		theOutput = "Not yet implemented";
-    		break;
-    	case "ttl" :
-    		theOutput = "Not yet implemented";
-    		break;
     	}
 		return theOutput;
 	}
@@ -249,12 +228,6 @@ public class ProtocolTemp {
     			theOutput = name+" successfuly removed";
     		}
     		else theOutput = name+" not present in this scope.";
-    		break;
-    	case "expire" :
-    		theOutput = "Not yet implemented";
-    		break;
-    	case "ttl" :
-    		theOutput = "Not yet implemented";
     		break;
     	default :
     		theOutput = "Invalid command";
