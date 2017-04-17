@@ -2,11 +2,9 @@ package data;
 
 import java.util.ArrayList;
 
-public class IntegerData implements Data {
+public class IntegerData extends AbstractData {
 	
-	ArrayList<String> name = new ArrayList<String>();
 	ArrayList<Integer> value = new ArrayList<Integer>();
-	ArrayList<Thread> timer = new ArrayList<Thread>();
 	
 	@Override
 	public boolean set(String name, Object value) {
@@ -33,11 +31,6 @@ public class IntegerData implements Data {
 	public Object get(String name) {
 		if(isPresent(name))return this.value.get(this.name.indexOf(name));
 		else return null;	
-	}
-	
-	@Override
-	public boolean isPresent(String name) {
-		return this.name.contains(name);
 	}
 	
 	@Override

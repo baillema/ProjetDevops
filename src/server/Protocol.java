@@ -180,13 +180,13 @@ public class Protocol {
     		else theOutput = name+" not present in this scope.";
     		break;
     	case "del" :
-    		if(setData.isPresent(name))
-    		{
-    			setData.remove(name);
-    			theOutput = name+" successfuly removed";
-    		}
+    		if(setData.remove(name)) theOutput = name+" successfuly removed";
     		else theOutput = name+" not present in this scope.";
     		break;
+    	case "delelmt" :
+        		if(setData.removeElmt(name, command[2])) theOutput = command[2]+" successfuly removed";
+        		else theOutput = command[2]+" not present in this scope.";
+        		break;
     	default :
     		theOutput = "Invalid command";
     		break;

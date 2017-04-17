@@ -1,31 +1,33 @@
 package data;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
-
-public class SSetData implements Data {
-
-	ArrayList<String> name = new ArrayList<String>();
-	ArrayList<ArrayList<Object>> value = new ArrayList<ArrayList<Object>>();
-	ArrayList<Timer> timer = new ArrayList<Timer>();
-		
-	@SuppressWarnings("unchecked")
+public class SSetData extends AbstractList {
+	
 	@Override
 	public boolean set(String name, Object value) {
-		if(isPresent(name))
+		boolean res = false;
+		if(isValideValue((String)value))
 		{
-			if(isValuePresent(value, name)) System.out.println("Value already present in this set.");
-			else insertSorted(value, name);
+			if(isPresent(name))
+			{
+				if(isValuePresent(value, name)) res = false;
+				else
+				{
+					insertSorted(value, name);
+					res = true;
+				}
+			}
+			else
+			{
+				this.name.add(name);
+				ArrayList<Object> val = new ArrayList<Object>();
+				val.add(value);
+				this.value.add(val);
+				res = true;
+			}
 		}
-		else
-		{
-			this.name.add(name);
-			this.value.add(new ArrayList<Object>());
-			this.value.set(this.name.indexOf(name),(ArrayList<Object>) value);
-		}
-		//TODO
-		return false;
+		return res;		
 	}
 
 	@Override
@@ -33,44 +35,15 @@ public class SSetData implements Data {
 		return this.value.get(this.name.indexOf(name));
 	}
 
-	@Override
-	public boolean isPresent(String name) {
-		return this.name.contains(name);
-	}
-	
 	private void insertSorted(Object value, String name) {
 		if(isValuePresent(value, name)) System.out.println("Value already present in this set.");
 		
 		this.value.get(this.name.indexOf(name)).add(value);
 		this.value.get(this.name.indexOf(name)).sort((o1, o2) -> o1.toString().compareToIgnoreCase(o2.toString()));
 	}
-		
-	@Override
-	public boolean remove(String name) {
-		this.value.remove(this.name.indexOf(name));
-		this.name.remove(this.name.indexOf(name));
-		//TODO
-		return false;
-	}
-	
-	public void removeElmt(String name, int index)
-	{
-		this.value.get(this.name.indexOf(name)).remove(index);
-	}
-	
-	public void removeElmt(String name, String elmt)
-	{
-		this.value.get(this.name.indexOf(name)).remove(elmt);
-	}
-	
+			
 	private boolean isValuePresent(Object value, String name) {
 		return this.value.get(this.name.indexOf(name)).contains(value);
 	}
 
-	@Override
-	public boolean isValideValue(String value) {
-		boolean res = false;
-		if(value.endsWith("\"") && value.startsWith("\"")) res = true;
-		return res;
-	}
 }

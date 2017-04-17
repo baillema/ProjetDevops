@@ -24,7 +24,7 @@ public class IntegerDataTest {
 	public void testSet() {
 		Random r = new Random();
 		int value;
-		for (int i = 0; i < NBTEST*100; i++){
+		for (int i = 0; i < NBTEST; i++){
 			value = r.nextInt();
 			ID.set(Integer.toString(value), value);
 		}
