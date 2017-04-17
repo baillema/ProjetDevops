@@ -10,8 +10,7 @@ public class IntegerData implements Data {
 	
 	@Override
 	public void set(String name, Object value) {
-		if(isPresent(name)) System.out.println("Name already present in this scope.");
-		else
+		if(!isPresent(name))
 		{
 			this.name.add(name);
 			this.value.add((int) value);
@@ -20,7 +19,9 @@ public class IntegerData implements Data {
 
 	@Override
 	public Object get(String name) {
-		return this.value.get(this.name.indexOf(name));
+		if(isPresent(name))return this.value.get(this.name.indexOf(name));
+		else return null;
+		
 	}
 	
 	@Override
@@ -30,13 +31,20 @@ public class IntegerData implements Data {
 	
 	@Override
 	public void remove(String name) {
-		this.value.remove(this.name.indexOf(name));
-		this.name.remove(this.name.indexOf(name));
+		if(isPresent(name))
+		{
+			this.value.remove(this.name.indexOf(name));
+			this.name.remove(this.name.indexOf(name));
+		}
 	}
 
 	public Object incr(String name) {
-		int val = this.value.get(this.name.indexOf(name)).intValue()+1;
-		this.value.set(this.name.indexOf(name), val);
-		return get(name);
+		if(isPresent(name))
+		{
+			int val = this.value.get(this.name.indexOf(name)).intValue()+1;
+			this.value.set(this.name.indexOf(name), val);
+			return get(name);
+		}
+		else return null;
 	}	
 }

@@ -5,7 +5,7 @@ import data.ListData;
 import data.SSetData;
 import data.SetData;
 
-public class ProtocolTemp {
+public class Protocol {
     private static final int WAITING = 0;
     private static final int WAITDATA = 1;
     private static final int WAITCMD = 2;
