@@ -9,19 +9,30 @@ public class IntegerData implements Data {
 	ArrayList<Thread> timer = new ArrayList<Thread>();
 	
 	@Override
-	public void set(String name, Object value) {
+	public boolean set(String name, Object value) {
+		boolean res = false;
+		if(!isPresent(name) && isValideValue((String) value))
+		{
+			this.name.add(name);
+			this.value.add(Integer.parseInt((String) value));
+			res = true;
+		}
+		
+		return res;
+	}
+	
+	public void set(String name, int value) {
 		if(!isPresent(name))
 		{
 			this.name.add(name);
-			this.value.add((int) value);
+			this.value.add(value);
 		}
 	}
 
 	@Override
 	public Object get(String name) {
 		if(isPresent(name))return this.value.get(this.name.indexOf(name));
-		else return null;
-		
+		else return null;	
 	}
 	
 	@Override
@@ -30,21 +41,40 @@ public class IntegerData implements Data {
 	}
 	
 	@Override
-	public void remove(String name) {
+	public boolean remove(String name) {
+		boolean res = false;
 		if(isPresent(name))
 		{
 			this.value.remove(this.name.indexOf(name));
 			this.name.remove(this.name.indexOf(name));
+			res = true;
 		}
+		
+		return res;
 	}
 
-	public Object incr(String name) {
+	public boolean incr(String name) {
+		boolean res = false;
 		if(isPresent(name))
 		{
 			int val = this.value.get(this.name.indexOf(name)).intValue()+1;
 			this.value.set(this.name.indexOf(name), val);
-			return get(name);
+			res = true;
 		}
-		else return null;
+		
+		return res;
+	}
+
+	@Override
+	public boolean isValideValue(String value) {
+		boolean res;
+		try  
+		{  
+			Integer.parseInt(value);
+			res = true;
+		}
+		catch(NumberFormatException nfe){ res = false; }
+		
+		return res;
 	}	
 }

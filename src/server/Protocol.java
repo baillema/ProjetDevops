@@ -17,7 +17,7 @@ public class Protocol {
     private String[] help = {"h", "help"};
     private String[] quit = {"q", "quit", "exit"};
     private String[] structure = {"int", "list", "set", "sset"};
-    private String[] cmd = {"SET", "GET", "HELP", "INCR", "REM"};
+    private String[] cmd = {"SET", "GET", "HELP", "INCR", "DEL", "DELELMT"};
     
     private IntegerData intData = new IntegerData();
     private ListData listData = new ListData();
@@ -51,8 +51,7 @@ public class Protocol {
     		state = WAITCMD;      		
     	}
         
-        else theOutput = "Invalid structure "; 
-    	
+        else theOutput = "Invalid structure "; 	
     	return theOutput;
 	}
 
@@ -60,43 +59,37 @@ public class Protocol {
     {
     	String theOutput;
 	  	String[] command = theInput.split("[ ]");
-
 	  	theInput = command[0];
-  	      	
-	    if(isQuit(theInput))
+  	    
+	  	if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
+	  	else if(isQuit(theInput))
 	    {
 	    	theOutput = "Go back to structure choice ";
-	    	state = WAITING;
+	    	state = WAITDATA;
 	    }
-      
-	    else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
 	    else if (isCmd(theInput)) 
 	    {
-	    	if(isValidName(command[1]))
-	    	{
-	    		String name = command[1];
-	    		
-	    		switch(dataState)
-	    		{
-	    		case "int" :
-	    			theOutput = cmdInt(command, name);
-		    		break;
-	    		case "list" :
-	    			theOutput = cmdList(command, name);
-		    		break;
-	    		case "set" :
-	    			theOutput = cmdSet(command, name);
-	    			break;
-	    		case "sset" :
-	    			theOutput = cmdSSet(command, name);
-	    			break;
-	    		default :
-	    			theOutput = "NOT OK";
-	    			break;
-	    		}
-	    	}
-	    	else theOutput = "Invalid command "+dataState;
-	    	
+	    	String name = command[1];
+    		
+    		switch(dataState)
+    		{
+    		case "int" :
+    			theOutput = cmdInt(command, name);
+	    		break;
+    		case "list" :
+    			theOutput = cmdList(command, name);
+	    		break;
+    		case "set" :
+    			theOutput = cmdSet(command, name);
+    			break;
+    		case "sset" :
+    			theOutput = cmdSSet(command, name);
+    			break;
+    		default :
+    			theOutput = "NOT OK";
+    			break;
+    		}
+    	
 	    	state = WAITCMD;
 	    }
 	    else theOutput = "Invalid command "+dataState;
@@ -111,28 +104,23 @@ public class Protocol {
     	switch(command[0].toLowerCase())
     	{
     	case "set" :
-    		if(isValideValue(command[2], dataState))
-			{
-				intData.set(name,Integer.parseInt(command[2]));
-				theOutput = "OK";
-			}
-			else theOutput = "Invalid value";
+    		if(command.length==3)
+    		{
+    			if(intData.set(name, command[2])) theOutput = "OK";
+    			else theOutput = "Invalid value";
+    		}
+    		else theOutput = "Problem in number of argument";
     		break;
     	case "get" :
-    		if(intData.isPresent(name)) theOutput = name+" "+(int) intData.get(name);
-    		else theOutput = name+" not present in this scope.";
+    		theOutput = name+" "+(int) intData.get(name);
     		break;
     	case "incr" :
-    		if(intData.isPresent(name)) theOutput = name+" "+(int) intData.incr(name);
-    		else theOutput = name+" not present in this scope.";
+    		if(intData.incr(name)) theOutput = "Increment done";
+    		else theOutput = "Value not present";
     		break;
-    	case "rem" :
-    		if(intData.isPresent(name))
-    		{
-    			intData.remove(name);
-    			theOutput = name+" successfuly removed";
-    		}
-    		else theOutput = name+" not present in this scope.";    		
+    	case "del" :
+    		if(intData.remove(name)) theOutput = name+" successfuly removed";
+    		else theOutput = "Value not present";
     		break;
     	default :
     		theOutput = "Invalid command";
@@ -148,24 +136,25 @@ public class Protocol {
     	switch(command[0].toLowerCase())
     	{
     	case "set" :
-    		if(isValideValue(command[2], dataState))
-			{
-    			listData.set(name,command[2]);
-				theOutput = "OK";
-			}
-			else theOutput = "Invalid value";
+    		if(command.length==3)
+    		{	
+    			if(listData.set(name,command[2])) theOutput = "OK";
+				else theOutput = "Invalid value";
+    		}
+    		else theOutput = "Problem in number of argument";
     		break;
     	case "get" :
     		if(listData.isPresent(name)) theOutput = name+" "+listData.get(name).toString();
     		else theOutput = name+" not present in this scope.";
     		break;
-    	case "rem" :
-    		if(listData.isPresent(name))
-    		{	
-    			listData.remove(name);
-    			theOutput = name+" successfuly removed";
-    		}
+    	case "del" :
+    		if(listData.remove(name)) theOutput = name+" successfuly removed";
     		else theOutput = name+" not present in this scope.";
+    		break;
+    	case "delelmt" :
+    		if(listData.removeElmt(name, command[2])) theOutput = command[2]+" successfuly removed";
+    		else theOutput = command[2]+" not present in this scope.";
+    		break;
     	default :
     		theOutput = "Invalid command";
     		break;
@@ -179,18 +168,18 @@ public class Protocol {
 		switch(command[0].toLowerCase())
     	{
     	case "set" :
-    		if(isValideValue(command[2], dataState))
-			{
-    			setData.set(name,command[2]);
-				theOutput = "OK";
-			}
-			else theOutput = "Invalid value";
+    		if(command.length==3)
+    		{
+	    		if(setData.set(name,command[2]))	theOutput = "OK";
+				else theOutput = "Invalid value";
+    		}
+    		else theOutput = "Problem in number of argument";
     		break;
     	case "get" :
     		if(setData.isPresent(name)) theOutput = name+" "+setData.get(name).toString();
     		else theOutput = name+" not present in this scope.";
     		break;
-    	case "rem" :
+    	case "del" :
     		if(setData.isPresent(name))
     		{
     			setData.remove(name);
@@ -210,18 +199,18 @@ public class Protocol {
 		switch(command[0].toLowerCase())
     	{
     	case "set" :
-    		if(isValideValue(command[2], dataState))
-			{
-    			ssetData.set(name,command[2]);
-				theOutput = "OK";
-			}
-			else theOutput = "Invalid value";
+    		if(command.length==3)
+    		{
+    			if(ssetData.set(name,command[2])) theOutput = "OK";
+    			else theOutput = "Invalid value";
+    		}
+    		else theOutput = "Problem in number of argument";
     		break;
     	case "get" :
     		if(ssetData.isPresent(name)) theOutput = name+" "+ssetData.get(name).toString();
     		else theOutput = name+" not present in this scope.";
     		break;
-    	case "rem" :
+    	case "del" :
     		if(ssetData.isPresent(name))
     		{
     			ssetData.remove(name);
@@ -236,43 +225,7 @@ public class Protocol {
 		return theOutput;
 	}
 	
-	// Miscellaneous tests
-	private boolean isValideValue(String string, String data) {
-		boolean res;
-		switch(data)
-		{
-		case "int" :
-			try  
-			{  
-				Integer.parseInt(string);
-				res = true;
-			}
-			catch(NumberFormatException nfe){ res = false; }
-			break;
-		case "list" :
-			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
-			else res = false;
-			break;		
-		case "set" :
-			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
-			else res = false;
-			break;
-		case "sset" :
-			if(string.endsWith("\"") && string.startsWith("\"")) res = true;
-			else res = false;
-			break;
-		default :
-			res = false;
-			break;
-						
-		}
-		return res;
-	}
-		
-	private boolean isValidName(String string) { 
-		return !Character.isDigit(string.charAt(0));		
-	}
-	
+	// Miscellaneous tests	
 	private boolean isData(String theInput) {
 		boolean res = false;
 		for(int i=0; i<structure.length && !res; i++) {if(structure[i].equalsIgnoreCase(theInput)) res = true ; }

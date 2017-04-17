@@ -6,12 +6,14 @@ package data;
 
 public interface Data {
 	
-	void set(String name, Object value);
+	boolean set(String name, Object value);
 	
 	Object get(String name);
 	
 	boolean isPresent(String name);
 	
-	void remove(String name);
+	boolean remove(String name);
+	
+	boolean isValideValue(String value);
 		
 }

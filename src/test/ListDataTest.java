@@ -22,45 +22,32 @@ public class ListDataTest {
 	
 	@Test
 	public void testSet() {
-		ArrayList<Integer> randomList = new ArrayList<Integer>();
-		Random r = new Random();
+		//ArrayList<Integer> randomList = new ArrayList<Integer>();
+		Random r = new Random();	
 		for(int i = 0; i < NBTEST; i++){
 			int nbEl = r.nextInt(100);
-			for (int j = 0; j < nbEl; j++){
-				randomList.add(j);
-			}
-			LD.set(Integer.toString(i), randomList);
-			randomList.clear();
+			for(int j = 0; j < nbEl; j++) LD.set(Integer.toString(i), ""+j);		
 		}
 	}
 
 	@Test
 	public void testGet() {
-		ArrayList<String> tempList = new ArrayList<String>();
+		ArrayList<Object> tmpList = new ArrayList<Object>();
 		int nbEl = 50;
 		for(int i = 0; i < NBTEST; i++){
+			tmpList = new ArrayList<Object>();
 			for (int j = 0; j < nbEl; j++){
-				tempList.add(Integer.toString(j+i));
+				tmpList.add("\""+(j+i)+"\"");
+				LD.set(Integer.toString(i), "\""+(j+i)+"\"");
 			}
-			LD.set(Integer.toString(i), tempList.clone());
-			tempList.clear();
-		}
-		for(int i = 0; i < NBTEST; i++){
-			tempList = (ArrayList<String>) LD.get(Integer.toString(i));
-			for (int j = 0; j < nbEl; j++){
-				assertEquals(Integer.toString(i+j),  tempList.get(j));
-				
-			}
-			
-		}
-		
+			assertEquals(tmpList, LD.get(Integer.toString(i)));
+		}	
 	}
 
 	@Test
 	public void testIsPresent() {
-		ArrayList<Integer> tempList = new ArrayList<Integer>();
 		for(int i = 0; i < NBTEST; i++){
-			LD.set(Integer.toString(i), tempList);
+			LD.set(Integer.toString(i), "\""+i+"\"");
 		}
 		for(int i = 0; i < NBTEST; i++){
 			assertTrue(LD.isPresent(Integer.toString(i)));
@@ -69,9 +56,8 @@ public class ListDataTest {
 
 	@Test
 	public void testRemove() {
-		ArrayList<Integer> tempList = new ArrayList<Integer>();
 		for(int i = 0; i < NBTEST; i++){
-			LD.set(Integer.toString(i), tempList);
+			LD.set(Integer.toString(i), "\""+i+"\"");
 			LD.remove(Integer.toString(i));
 		}
 		for(int i = 0; i < NBTEST; i++){

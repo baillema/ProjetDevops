@@ -12,7 +12,7 @@ public class SSetData implements Data {
 		
 	@SuppressWarnings("unchecked")
 	@Override
-	public void set(String name, Object value) {
+	public boolean set(String name, Object value) {
 		if(isPresent(name))
 		{
 			if(isValuePresent(value, name)) System.out.println("Value already present in this set.");
@@ -23,7 +23,9 @@ public class SSetData implements Data {
 			this.name.add(name);
 			this.value.add(new ArrayList<Object>());
 			this.value.set(this.name.indexOf(name),(ArrayList<Object>) value);
-		}		
+		}
+		//TODO
+		return false;
 	}
 
 	@Override
@@ -44,9 +46,11 @@ public class SSetData implements Data {
 	}
 		
 	@Override
-	public void remove(String name) {
+	public boolean remove(String name) {
 		this.value.remove(this.name.indexOf(name));
 		this.name.remove(this.name.indexOf(name));
+		//TODO
+		return false;
 	}
 	
 	public void removeElmt(String name, int index)
@@ -61,5 +65,12 @@ public class SSetData implements Data {
 	
 	private boolean isValuePresent(Object value, String name) {
 		return this.value.get(this.name.indexOf(name)).contains(value);
+	}
+
+	@Override
+	public boolean isValideValue(String value) {
+		boolean res = false;
+		if(value.endsWith("\"") && value.startsWith("\"")) res = true;
+		return res;
 	}
 }
