@@ -22,7 +22,6 @@ public class ListDataTest {
 	
 	@Test
 	public void testSet() {
-		//ArrayList<Integer> randomList = new ArrayList<Integer>();
 		Random r = new Random();	
 		for(int i = 0; i < NBTEST; i++){
 			int nbEl = r.nextInt(100);
@@ -65,13 +64,42 @@ public class ListDataTest {
 		}
 	}
 
+	
+	// abstractList
+	
+	
 	@Test
-	public void testRemoveElmtStringInt() {
-		//
+	public void testValideValue(){
+		Random r = new Random();
+		int test;
+		for(int i = 0; i < NBTEST; i++){
+			test = r.nextInt(10000000);
+			assertTrue(LD.isValideValue( "\""+test+"\""));
+			assertFalse(LD.isValideValue(Integer.toString(test)));
+		}
 	}
-
+	
 	@Test
-	public void testRemoveElmtStringString() {
+	public void testElmtPresent(){
+		for(int i = 0; i < NBTEST; i++){
+			LD.set(Integer.toString(i), "\""+i+"\"");
+		}
+		for(int i = 0; i < NBTEST; i++){
+			assertTrue(LD.isElmtPresent(Integer.toString(i), "\""+i+"\""));
+		}
 	}
+	
+	@Test
+	public void testRemoveElmt(){
+		for(int i = 0; i < NBTEST; i++){
+			LD.set(Integer.toString(i), "\""+i+"\"");
+			LD.removeElmt(Integer.toString(i),"\""+i+"\"");
+		}
+		for(int i = 0; i < NBTEST; i++){
+			assertFalse(LD.isPresent(Integer.toString(i)));
+		}
+	}
+	
+	
 
 }

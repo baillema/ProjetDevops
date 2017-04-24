@@ -6,9 +6,11 @@ Pierre
 #JUnit
 Pierre
 	IntegerData : ok
-	ListData : ongoing
-	SetData : TODO
+	ListData : ok
+	SetData : ok
 	SSetData : TODO
+	
+Currently not passing : TestRemoveElmt in ListDataTest
 
 # Maven
 Maxime
