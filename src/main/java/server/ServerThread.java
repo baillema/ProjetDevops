@@ -11,12 +11,12 @@ public class ServerThread implements Runnable {
 
 	private ReentrantReadWriteLock clientAcceptLock;
 	private Socket socket;
-	private ProtocolTest protocol;
+	private Protocol protocol;
 	private int port;
 	
-	public ServerThread(int port, ProtocolTest protocol, Socket clientSocket, ReentrantReadWriteLock lock) {
+	public ServerThread(int port, Protocol protocol, Socket clientSocket, ReentrantReadWriteLock lock) {
 	    this.port = port;
-		this.protocol = new ProtocolTest();
+		this.protocol = new Protocol();
 		this.socket = clientSocket;   
 		this.clientAcceptLock = lock;
 		
