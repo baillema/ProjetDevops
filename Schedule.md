@@ -10,7 +10,7 @@ Pierre
 	SetData : ok
 	SSetData : TODO
 	
-Currently not passing : TestRemoveElmt in ListDataTest
+	
 
 # Maven
 Maxime

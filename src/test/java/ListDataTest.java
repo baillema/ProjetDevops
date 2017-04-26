@@ -92,11 +92,14 @@ public class ListDataTest {
 	@Test
 	public void testRemoveElmt(){
 		for(int i = 0; i < NBTEST; i++){
-			LD.set(Integer.toString(i), "\""+i+"\"");
-			LD.removeElmt(Integer.toString(i),"\""+i+"\"");
+			assertFalse(LD.removeElmt(Integer.toString(i),"\""+i+"\""));
 		}
 		for(int i = 0; i < NBTEST; i++){
-			assertFalse(LD.isPresent(Integer.toString(i)));
+			LD.set(Integer.toString(i), "\""+i+"\"");
+			assertTrue(LD.removeElmt(Integer.toString(i),"\""+i+"\""));
+		}
+		for(int i = 0; i < NBTEST; i++){
+			assertFalse(LD.isElmtPresent(Integer.toString(i), "\""+i+"\""));
 		}
 	}
 	
