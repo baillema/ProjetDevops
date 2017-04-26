@@ -126,7 +126,10 @@ public class Protocol {
     		else theOutput = "Problem in number of argument";
     		break;
     	case "get" :
-    		theOutput = name+" "+(int) intData.get(name);
+    		if(intData.get(name) == null)
+    			theOutput = "No set value for that name";
+    		else
+    			theOutput = name+" "+(int) intData.get(name);
     		break;
     	case "incr" :
     		if(intData.incr(name)) theOutput = "Increment done";
