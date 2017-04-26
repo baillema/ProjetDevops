@@ -42,7 +42,6 @@ public class SSetData extends AbstractList {
 	}
 
 	private void insertSorted(Object value, String name) {
-		if(isValuePresent(value, name)) System.out.println("Value already present in this set.");
 		
 		this.value.get(this.name.indexOf(name)).add(value);
 		this.value.get(this.name.indexOf(name)).sort((o1, o2) -> o1.toString().compareToIgnoreCase(o2.toString()));
