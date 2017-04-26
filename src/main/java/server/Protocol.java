@@ -43,7 +43,7 @@ public class Protocol {
 	private String waitData(String theInput) {
     	String theOutput;
     	if(isQuit(theInput)) theOutput = "Bye.";
-        else if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;      	
+        else if(isHelp(theInput)) theOutput = help();      	
         else if(isData(theInput))
     	{
     		theOutput = "Enter in mode "+ theInput;
@@ -55,13 +55,27 @@ public class Protocol {
     	return theOutput;
 	}
 
-    private String waitCmd(String theInput)
+	
+    private String help() {
+		String rep;
+		rep = "You can choose between four types of data : integer (int), list (list), set (set), sorted set (sset)\n";
+		rep+= "The commands that are available for all types : set, get, del\n";
+		rep+= "Ex : set val 10 (for int), set val \"hello\" (for list, set, sset)\n";
+		rep+= "Ex : get val (for all types)\n";
+		rep+= "Ex : del val (for all types)\n";
+		rep+= "Only for int : incr. Ex : incr val (add 1 to val)\n";
+		rep+= "Only for other than int : delelmt\n";
+		rep+= "Ex : delelmt val \"hello\"\n";
+		return rep;
+	}
+
+	private String waitCmd(String theInput)
     {
     	String theOutput;
 	  	String[] command = theInput.split("[ ]");
 	  	theInput = command[0];
   	    
-	  	if(isHelp(theInput)) theOutput = "Type help CMD to know more about a command." ;
+	  	if(isHelp(theInput)) theOutput = help();
 	  	else if(isQuit(theInput))
 	    {
 	    	theOutput = "Go back to structure choice ";
