@@ -24,8 +24,8 @@ public class IntegerData extends AbstractData {
 	
 	/**
 	 * Add a value "value" which will be referenced under the name "name". The name must not be already used.
-	 * @param name
-	 * @param value
+	 * @param name name of the value
+	 * @param value value to add to the Set
 	 */
 	public void set(String name, int value) {
 		if(!isPresent(name))
