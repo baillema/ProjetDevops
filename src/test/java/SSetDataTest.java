@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import org.junit.Before;
