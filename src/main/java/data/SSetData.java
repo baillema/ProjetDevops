@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class SSetData extends AbstractList {
 	
+	/* (non-Javadoc)
+	 * @see data.Data#set(java.lang.String, java.lang.Object)
+	 */
 	@Override
 	public boolean set(String name, Object value) {
 		boolean res = false;
@@ -30,6 +33,9 @@ public class SSetData extends AbstractList {
 		return res;		
 	}
 
+	/* (non-Javadoc)
+	 * @see data.Data#get(java.lang.String)
+	 */
 	@Override
 	public Object get(String name) {
 		return this.value.get(this.name.indexOf(name));
@@ -42,6 +48,12 @@ public class SSetData extends AbstractList {
 		this.value.get(this.name.indexOf(name)).sort((o1, o2) -> o1.toString().compareToIgnoreCase(o2.toString()));
 	}
 			
+	/**
+	 * Checks if the value "value" is stored in the  sorted Set "name".
+	 * @param value  the value
+	 * @param name	 name of the sorted Set
+	 * @return true if the object is stored in the sorted Set, else false
+	 */
 	private boolean isValuePresent(Object value, String name) {
 		return this.value.get(this.name.indexOf(name)).contains(value);
 	}
