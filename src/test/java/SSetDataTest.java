@@ -23,7 +23,12 @@ public class SSetDataTest {
 		Random r = new Random();	
 		for(int i = 0; i < NBTEST; i++){
 			int nbEl = r.nextInt(100);
-			for(int j = 0; j < nbEl; j++) SSD.set(Integer.toString(i), ""+j);		
+			for(int j = 0; j < nbEl; j++){
+				String tmp = "\""+j+"\"";
+				assertTrue(SSD.set(Integer.toString(i), tmp));	
+				assertFalse(SSD.set(Integer.toString(i), tmp));
+				assertFalse(SSD.set(Integer.toString(i), ""+i));
+			}
 		}
 	}
 

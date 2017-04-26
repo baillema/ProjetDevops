@@ -24,7 +24,12 @@ public class SetDataTest {
 		Random r = new Random();	
 		for(int i = 0; i < NBTEST; i++){
 			int nbEl = r.nextInt(100);
-			for(int j = 0; j < nbEl; j++) SD.set(Integer.toString(i), ""+j);		
+			for(int j = 0; j < nbEl; j++){
+				String tmp = "\""+j+"\"";
+				assertTrue(SD.set(Integer.toString(i), tmp));	
+				assertFalse(SD.set(Integer.toString(i), tmp));
+				assertFalse(SD.set(Integer.toString(i), ""+j));
+			}
 		}
 	}
 
@@ -39,6 +44,7 @@ public class SetDataTest {
 				SD.set(Integer.toString(i), "\""+(j+i)+"\"");
 			}
 			assertEquals(tmpList, SD.get(Integer.toString(i)));
+			assertEquals(null, SD.get(Integer.toString(i+NBTEST)));
 		}	
 	}
 

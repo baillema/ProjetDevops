@@ -28,6 +28,20 @@ public class ListDataTest {
 			for(int j = 0; j < nbEl; j++) LD.set(Integer.toString(i), ""+j);		
 		}
 	}
+	
+	@Test
+	public void testSet2() {
+		Random r = new Random();	
+		for(int i = 0; i < NBTEST; i++){
+			int nbEl = r.nextInt(100);
+			for(int j = 0; j < nbEl; j++){
+				String tmp = "\""+j+"\"";
+				String tmp2 = ""+j;
+				assertTrue(LD.set(Integer.toString(i), (Object) tmp));
+				assertFalse(LD.set(Integer.toString(i), (Object) tmp2));
+			}
+		}
+	}
 
 	@Test
 	public void testGet() {
@@ -40,6 +54,7 @@ public class ListDataTest {
 				LD.set(Integer.toString(i), "\""+(j+i)+"\"");
 			}
 			assertEquals(tmpList, LD.get(Integer.toString(i)));
+			assertEquals(null,LD.get(Integer.toString(i+NBTEST)));
 		}	
 	}
 
