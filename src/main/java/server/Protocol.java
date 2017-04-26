@@ -55,6 +55,7 @@ public class Protocol {
     	return theOutput;
 	}
 
+	
     private String help() {
 		String rep;
 		rep = "You can choose between four types of data : integer (int), list (list), set (set), sorted set (sset)\n";
