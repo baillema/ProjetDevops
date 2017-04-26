@@ -5,23 +5,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * This runnable class handles the communication between the client and the server.
+ * 
+ * @author Neliron
+ *
+ */
 
 public class ServerThread implements Runnable {
 
-	private ReentrantReadWriteLock clientAcceptLock;
 	private Socket socket;
 	private Protocol protocol;
 	private int port;
 	
-	public ServerThread(int port, Protocol protocol, Socket clientSocket, ReentrantReadWriteLock lock) {
+	/**
+	 * Create a new ServerThread.
+	 * 
+	 * @param port the port on which the server listens
+	 * @param protocol the protocol used by the client
+	 * @param clientSocket the socket of the client
+	 */
+	public ServerThread(int port, Protocol protocol, Socket clientSocket) {
 	    this.port = port;
 		this.protocol = new Protocol();
-		this.socket = clientSocket;   
-		this.clientAcceptLock = lock;
-		
+		this.socket = clientSocket;
 	}
 	
+	/**
+	 * Runs the thread.
+	 * Firstly it sends a welcome message to the client and then it runs the communication.
+	 */
 	@Override
 	public void run() {
 		

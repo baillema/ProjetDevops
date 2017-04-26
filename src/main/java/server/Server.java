@@ -2,15 +2,18 @@ package server;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.io.*;
+
+/**
+ * This class accepts connections from clients and creates a Protocol instance and a ServerThread thread to manage the clients.
+ * @author Neliron
+ *
+ */
 
 public class Server {
 	
 	public static HashMap<Socket, Protocol> clients = new HashMap<Socket, Protocol>();
 	public static ArrayList<Thread> clientThreads = new ArrayList<Thread>();
-	
-	public static ReentrantReadWriteLock clientAcceptLock = new ReentrantReadWriteLock();
 	
     public static void main(String[] args) throws IOException {
         
@@ -32,7 +35,7 @@ public class Server {
 				System.out.println("New client accepted !");
 				
 				clients.put(clientSocket, prot);
-				Thread t = new Thread(new ServerThread(portNumber, prot, clientSocket, clientAcceptLock));
+				Thread t = new Thread(new ServerThread(portNumber, prot, clientSocket));
 				clientThreads.add(t);
 				
 				t.start();
@@ -42,20 +45,5 @@ public class Server {
 				e.printStackTrace();
 			}
 		}while(!clientThreads.isEmpty());
-        
-        /*try {
-			clientAccept.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        clientAccept.interrupt();
-        
-        for(Thread t : clientThreads){
-        	t.interrupt();
-        }
-        
-        serverSocket.close();*/
     }
 }
