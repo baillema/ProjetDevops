@@ -22,49 +22,26 @@ public class ServerTest {
         int portNumber = Integer.parseInt(args[0]);
         ServerSocket serverSocket = new ServerSocket(portNumber);
         
-        while(true){
+        do{
 			try {
 				
-				clientAcceptLock.writeLock().lock();
-				
 				ProtocolTest prot = new ProtocolTest();
-				Socket clientSocket = serverSocket.accept();
+				Socket clientSocket = new Socket();
+				clientSocket = serverSocket.accept();
+				
+				System.out.println("New client accepted !");
+				
 				clients.put(clientSocket, prot);
+				Thread t = new Thread(new ServerThread(portNumber, prot, clientSocket, clientAcceptLock));
+				clientThreads.add(t);
 				
-				clientThreads.add(new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						try {
-							
-							clientAcceptLock.readLock().lock();
-							
-							PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-							BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-							String outputLine = prot.processInput(null);
-				            out.println(outputLine);
-
-				            String inputLine;
-				            while ((inputLine = in.readLine()) != null && !outputLine.equals("Bye.")) {
-				                outputLine = prot.processInput(inputLine);
-				                out.println(outputLine);
-				            }
-						} catch (IOException e) {
-							System.out.println("Exception caught when trying to listen on port "
-					                + portNumber + " or listening for a connection");
-							e.printStackTrace();
-						}
-					}
-				}));
-				
-
-				clientAcceptLock.writeLock().unlock();
+				t.start();
 				
 			} catch (IOException e) {
 				serverSocket.close();
 				e.printStackTrace();
 			}
-		}
+		}while(!clientThreads.isEmpty());
         
         /*try {
 			clientAccept.join();
